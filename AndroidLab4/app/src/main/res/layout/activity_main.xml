@@ -1,0 +1,54 @@
+<!-- activity_main.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/buttonPlayAudio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_play_audio" />
+
+    <Button
+        android:id="@+id/buttonPauseAudio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_pause_audio"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/buttonStopAudio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_stop_audio"
+        android:layout_marginTop="8dp"/>
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/buttonPlayVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_play_video"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/buttonPauseVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_pause_video"
+        android:layout_marginTop="8dp"/>
+
+    <Button
+        android:id="@+id/buttonStopVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_stop_video"
+        android:layout_marginTop="8dp"/>
+</LinearLayout>
