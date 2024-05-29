@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">AndroidLab1</string>
+    <string name="type_phones">Телефони</string>
+    <string name="type_headphones">Навушники</string>
+    <string name="type_smartwatches">Смарт-годинники</string>
+    <string name="brand_apple">Apple</string>
+    <string name="brand_samsung">Samsung</string>
+    <string name="brand_xiaomi">Xiaomi</string>
+    <string name="select_product_type">Виберіть тип товару:</string>
+    <string name="select_brand">Виберіть фірму:</string>
+    <string name="agree">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="prompt_select_goods_and_brand">Шановний користувач, оберіть будь-ласка товар та виробника.</string>
+</resources>
