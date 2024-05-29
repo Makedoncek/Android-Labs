@@ -8,12 +8,15 @@ import java.io.FileInputStream
 class StorageHelper(private val context: Context) {
 
     private val fileName = "data_storage.txt"
+    private val counterFileName = "counter_storage.txt"
 
     fun saveData(data: String): Boolean {
         return try {
+            val currentCount = getCounter()
             val fileOutputStream: FileOutputStream = context.openFileOutput(fileName, Context.MODE_APPEND)
-            fileOutputStream.write((data + "\n").toByteArray())
+            fileOutputStream.write(("Вибір-Користувача $currentCount: $data\n").toByteArray())
             fileOutputStream.close()
+            incrementCounter()
             true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -39,10 +42,45 @@ class StorageHelper(private val context: Context) {
             val fileOutputStream: FileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE)
             fileOutputStream.write("".toByteArray())
             fileOutputStream.close()
+            resetCounter()
             true
         } catch (e: Exception) {
             e.printStackTrace()
             false
+        }
+    }
+
+    private fun getCounter(): Int {
+        return try {
+            val fileInputStream: FileInputStream = context.openFileInput(counterFileName)
+            val inputStreamReader = fileInputStream.bufferedReader()
+            val count = inputStreamReader.use { it.readText() }
+            inputStreamReader.close()
+            count.toIntOrNull() ?: 1
+        } catch (e: Exception) {
+            1
+        }
+    }
+
+    private fun incrementCounter() {
+        val currentCount = getCounter()
+        val newCount = currentCount + 1
+        try {
+            val fileOutputStream: FileOutputStream = context.openFileOutput(counterFileName, Context.MODE_PRIVATE)
+            fileOutputStream.write(newCount.toString().toByteArray())
+            fileOutputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun resetCounter() {
+        try {
+            val fileOutputStream: FileOutputStream = context.openFileOutput(counterFileName, Context.MODE_PRIVATE)
+            fileOutputStream.write("1".toByteArray())
+            fileOutputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

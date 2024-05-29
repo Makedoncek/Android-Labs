@@ -50,8 +50,7 @@ class MainActivity : AppCompatActivity(), InputFragment.OnInputSelectedListener 
             .commit()
 
         // Оновлення даних у файлі
-        val dataToSave = "Вибір-Користувача: $input"
-        val isSaved = storageHelper.saveData(dataToSave)
+        val isSaved = storageHelper.saveData(input)
         if (isSaved) {
             Toast.makeText(this, "Дані успішно збережено", Toast.LENGTH_SHORT).show()
         } else {
