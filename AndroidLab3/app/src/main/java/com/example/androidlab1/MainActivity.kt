@@ -38,6 +38,16 @@ class MainActivity : AppCompatActivity(), InputFragment.OnInputSelectedListener 
                 Toast.makeText(this, "Помилка при видаленні даних", Toast.LENGTH_SHORT).show()
             }
         }
+
+        val buttonDeleteLast = findViewById<Button>(R.id.buttonDeleteLast)
+        buttonDeleteLast.setOnClickListener {
+            val isDeleted = storageHelper.deleteLastEntry()
+            if (isDeleted) {
+                Toast.makeText(this, "Останній вибір успішно видалено", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Помилка при видаленні останнього вибору", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onInputSelected(input: String) {

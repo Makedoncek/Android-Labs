@@ -50,6 +50,25 @@ class StorageHelper(private val context: Context) {
         }
     }
 
+    fun deleteLastEntry(): Boolean {
+        return try {
+            val data = readData().split("\n").filter { it.isNotBlank() }
+            if (data.isNotEmpty()) {
+                val updatedData = data.dropLast(1).joinToString("\n")
+                val fileOutputStream: FileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE)
+                fileOutputStream.write(updatedData.toByteArray())
+                fileOutputStream.close()
+                decrementCounter()
+                true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
+
     private fun getCounter(): Int {
         return try {
             val fileInputStream: FileInputStream = context.openFileInput(counterFileName)
@@ -65,6 +84,18 @@ class StorageHelper(private val context: Context) {
     private fun incrementCounter() {
         val currentCount = getCounter()
         val newCount = currentCount + 1
+        try {
+            val fileOutputStream: FileOutputStream = context.openFileOutput(counterFileName, Context.MODE_PRIVATE)
+            fileOutputStream.write(newCount.toString().toByteArray())
+            fileOutputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun decrementCounter() {
+        val currentCount = getCounter()
+        val newCount = if (currentCount > 1) currentCount - 1 else 1
         try {
             val fileOutputStream: FileOutputStream = context.openFileOutput(counterFileName, Context.MODE_PRIVATE)
             fileOutputStream.write(newCount.toString().toByteArray())

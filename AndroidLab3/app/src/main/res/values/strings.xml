@@ -14,4 +14,5 @@
     <string name="button_open">Відкрити</string>
     <string name="button_back">Назад</string>
     <string name="button_clear">Видалити</string>
+    <string name="button_delete_last">Видалити останній вибір</string>
 </resources>
