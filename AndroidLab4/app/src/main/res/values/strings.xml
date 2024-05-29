@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AndroidLab4</string>
+    <string name="button_play_audio">Play Audio</string>
+    <string name="button_pause_audio">Pause Audio</string>
+    <string name="button_stop_audio">Stop Audio</string>
+    <string name="button_play_video">Play Video</string>
+    <string name="button_pause_video">Pause Video</string>
+    <string name="button_stop_video">Stop Video</string>
+</resources>
