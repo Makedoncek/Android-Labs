@@ -13,4 +13,5 @@
     <string name="prompt_select_goods_and_brand">Шановний користувач, оберіть будь-ласка товар та виробника.</string>
     <string name="button_open">Відкрити</string>
     <string name="button_back">Назад</string>
+    <string name="button_clear">Видалити</string>
 </resources>

@@ -11,8 +11,8 @@ class StorageHelper(private val context: Context) {
 
     fun saveData(data: String): Boolean {
         return try {
-            val fileOutputStream: FileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE)
-            fileOutputStream.write(data.toByteArray())
+            val fileOutputStream: FileOutputStream = context.openFileOutput(fileName, Context.MODE_APPEND)
+            fileOutputStream.write((data + "\n").toByteArray())
             fileOutputStream.close()
             true
         } catch (e: Exception) {
@@ -31,6 +31,18 @@ class StorageHelper(private val context: Context) {
         } catch (e: Exception) {
             e.printStackTrace()
             ""
+        }
+    }
+
+    fun clearData(): Boolean {
+        return try {
+            val fileOutputStream: FileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE)
+            fileOutputStream.write("".toByteArray())
+            fileOutputStream.close()
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
         }
     }
 }

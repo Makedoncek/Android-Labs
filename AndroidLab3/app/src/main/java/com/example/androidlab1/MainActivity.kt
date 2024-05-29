@@ -28,6 +28,16 @@ class MainActivity : AppCompatActivity(), InputFragment.OnInputSelectedListener 
             val intent = Intent(this, DataDisplayActivity::class.java)
             startActivity(intent)
         }
+
+        val buttonClear = findViewById<Button>(R.id.buttonClear)
+        buttonClear.setOnClickListener {
+            val isCleared = storageHelper.clearData()
+            if (isCleared) {
+                Toast.makeText(this, "Дані успішно видалено", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Помилка при видаленні даних", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onInputSelected(input: String) {
@@ -39,8 +49,9 @@ class MainActivity : AppCompatActivity(), InputFragment.OnInputSelectedListener 
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
 
-        // Запис даних у файл
-        val isSaved = storageHelper.saveData(input)
+        // Оновлення даних у файлі
+        val dataToSave = "Вибір-Користувача: $input"
+        val isSaved = storageHelper.saveData(dataToSave)
         if (isSaved) {
             Toast.makeText(this, "Дані успішно збережено", Toast.LENGTH_SHORT).show()
         } else {
