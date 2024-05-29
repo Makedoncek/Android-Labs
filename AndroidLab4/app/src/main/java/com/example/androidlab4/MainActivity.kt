@@ -3,7 +3,9 @@ package com.example.androidlab4
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.view.View  // Додаємо імпорт класу View
 import android.widget.Button
+import android.widget.ImageView  // Додаємо імпорт класу ImageView
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -11,6 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var videoView: VideoView
+    private lateinit var audioImage: ImageView
     private var audioPaused: Boolean = false
     private var videoPaused: Boolean = false
 
@@ -22,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         val buttonPauseAudio = findViewById<Button>(R.id.buttonPauseAudio)
         val buttonStopAudio = findViewById<Button>(R.id.buttonStopAudio)
         videoView = findViewById(R.id.videoView)
+        audioImage = findViewById(R.id.audioImage)
         val buttonPlayVideo = findViewById<Button>(R.id.buttonPlayVideo)
         val buttonPauseVideo = findViewById<Button>(R.id.buttonPauseVideo)
         val buttonStopVideo = findViewById<Button>(R.id.buttonStopVideo)
@@ -31,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         mediaPlayer = MediaPlayer.create(this, audioUri)
 
         buttonPlayAudio.setOnClickListener {
+            audioImage.visibility = View.VISIBLE
             if (audioPaused) {
                 mediaPlayer.start()
                 audioPaused = false
@@ -51,6 +56,7 @@ class MainActivity : AppCompatActivity() {
             if (mediaPlayer.isPlaying || audioPaused) {
                 mediaPlayer.stop()
                 mediaPlayer.release()
+                audioImage.visibility = View.GONE
                 audioPaused = false
             }
         }
@@ -60,6 +66,7 @@ class MainActivity : AppCompatActivity() {
         videoView.setVideoURI(videoUri)
 
         buttonPlayVideo.setOnClickListener {
+            audioImage.visibility = View.GONE
             if (videoPaused) {
                 videoView.start()
                 videoPaused = false
