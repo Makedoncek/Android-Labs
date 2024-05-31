@@ -7,6 +7,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var categorySpinner: Spinner
     private lateinit var searchEditText: EditText
+    private lateinit var searchButton: Button
     private val categories = listOf("general", "business", "entertainment", "health", "science", "sports", "technology")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +37,8 @@ class MainActivity : AppCompatActivity() {
 
         categorySpinner = findViewById(R.id.categorySpinner)
         searchEditText = findViewById(R.id.searchEditText)
+        searchButton = findViewById(R.id.searchButton)
+
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         categorySpinner.adapter = adapter
@@ -55,6 +59,11 @@ class MainActivity : AppCompatActivity() {
             } else {
                 false
             }
+        }
+
+        searchButton.setOnClickListener {
+            val query = searchEditText.text.toString()
+            fetchNews(categorySpinner.selectedItem.toString(), query)
         }
 
         fetchNews("general")
