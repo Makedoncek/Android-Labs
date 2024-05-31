@@ -1,5 +1,7 @@
 package com.example.androidlab6
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,13 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class NewsAdapter(private val newsList: List<NewsArticle>) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
-
-    class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val newsImageView: ImageView = itemView.findViewById(R.id.newsImageView)
-        val newsTitleTextView: TextView = itemView.findViewById(R.id.newsTitleTextView)
-        val newsDescriptionTextView: TextView = itemView.findViewById(R.id.newsDescriptionTextView)
-    }
+class NewsAdapter(private val context: Context, private val newsList: List<NewsArticle>) :
+    RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_news, parent, false)
@@ -22,15 +19,25 @@ class NewsAdapter(private val newsList: List<NewsArticle>) : RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        val newsArticle = newsList[position]
-        holder.newsTitleTextView.text = newsArticle.title
-        holder.newsDescriptionTextView.text = newsArticle.description
-        Glide.with(holder.itemView.context)
-            .load(newsArticle.urlToImage)
-            .into(holder.newsImageView)
+        val article = newsList[position]
+        holder.newsTitleTextView.text = article.title
+        holder.newsDescriptionTextView.text = article.description
+        Glide.with(context).load(article.urlToImage).into(holder.newsImageView)
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, NewsDetailActivity::class.java)
+            intent.putExtra("url", article.url)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
         return newsList.size
+    }
+
+    class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val newsTitleTextView: TextView = itemView.findViewById(R.id.newsTitleTextView)
+        val newsDescriptionTextView: TextView = itemView.findViewById(R.id.newsDescriptionTextView)
+        val newsImageView: ImageView = itemView.findViewById(R.id.newsImageView)
     }
 }
