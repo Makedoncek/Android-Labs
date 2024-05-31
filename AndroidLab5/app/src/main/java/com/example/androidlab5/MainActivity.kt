@@ -1,16 +1,13 @@
 package com.example.androidlab5
 
-import android.content.Context
-import android.content.Intent
+
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.os.Build
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -78,27 +75,26 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             Sensor.TYPE_PRESSURE -> {
                 val pressure = event.values[0]
                 currentPressure = pressure
-                pressureTextView.text = "Pressure: $pressure hPa"
+                pressureTextView.text = String.format(getString(R.string.pressure), pressure)
                 pressureEntries.add(Entry(timeIndex, pressure))
                 updateChart(pressureChart, pressureEntries)
             }
             Sensor.TYPE_AMBIENT_TEMPERATURE -> {
                 val temperature = event.values[0]
                 currentTemperature = temperature
-                temperatureTextView.text = "Temperature: $temperature °C"
+                temperatureTextView.text = String.format(getString(R.string.temperature), temperature)
                 temperatureEntries.add(Entry(timeIndex, temperature))
                 updateChart(temperatureChart, temperatureEntries)
             }
             Sensor.TYPE_RELATIVE_HUMIDITY -> {
                 val humidity = event.values[0]
                 currentHumidity = humidity
-                humidityTextView.text = "Humidity: $humidity %"
+                humidityTextView.text = String.format(getString(R.string.humidity), humidity)
                 humidityEntries.add(Entry(timeIndex, humidity))
                 updateChart(humidityChart, humidityEntries)
             }
         }
 
-        // Оновлюємо графіки, навіть якщо значення не змінюються
         if (currentTemperature != null) {
             temperatureEntries.add(Entry(timeIndex, currentTemperature!!))
             updateChart(temperatureChart, temperatureEntries)
@@ -111,14 +107,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         if (currentPressure != null && currentTemperature != null && currentHumidity != null) {
             val forecast = getWeatherForecast(currentPressure!!, currentTemperature!!, currentHumidity!!)
-            weatherForecastTextView.text = "Weather Forecast: $forecast"
+            weatherForecastTextView.text = String.format(getString(R.string.weather_forecast), forecast)
         }
 
         timeIndex += 1f
     }
 
+
+
+
     override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
-        // Нічого не робимо, але метод має бути реалізований.
     }
 
     private fun getWeatherForecast(pressure: Float, temperature: Float, humidity: Float): String {

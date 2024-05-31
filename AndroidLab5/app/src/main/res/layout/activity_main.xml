@@ -14,7 +14,7 @@
             android:id="@+id/weatherForecastTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Weather Forecast: "
+            android:text="@string/weather_forecast"
             android:textSize="18sp"
             android:padding="8dp"/>
 
@@ -22,7 +22,7 @@
             android:id="@+id/pressureTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pressure: "
+            android:text="@string/pressure"
             android:textSize="18sp"
             android:padding="8dp"/>
 
@@ -37,7 +37,7 @@
             android:id="@+id/temperatureTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Temperature: "
+            android:text="@string/temperature"
             android:textSize="18sp"
             android:padding="8dp"/>
 
@@ -52,7 +52,7 @@
             android:id="@+id/humidityTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Humidity: "
+            android:text="@string/humidity"
             android:textSize="18sp"
             android:padding="8dp"/>
 

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AndroidLab5</string>
+    <string name="pressure">Pressure: %.2f hPa</string>
+    <string name="temperature">Temperature: %.2f °C</string>
+    <string name="humidity">Humidity: %.2f %%</string>
+    <string name="weather_forecast">Weather Forecast: %s</string>
 </resources>
