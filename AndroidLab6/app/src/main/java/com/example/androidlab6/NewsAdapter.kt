@@ -22,7 +22,9 @@ class NewsAdapter(private val context: Context, private val newsList: List<NewsA
         val article = newsList[position]
         holder.newsTitleTextView.text = article.title
         holder.newsDescriptionTextView.text = article.description
-        Glide.with(context).load(article.urlToImage).into(holder.newsImageView)
+        Glide.with(context)
+            .load(article.urlToImage ?: R.drawable.placeholder_image)
+            .into(holder.newsImageView)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, NewsDetailActivity::class.java)
