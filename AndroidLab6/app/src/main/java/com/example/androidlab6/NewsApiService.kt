@@ -14,6 +14,8 @@ interface NewsApiService {
     @GET("v2/everything")
     suspend fun searchNews(
         @Query("q") query: String,
+        @Query("country") country: String,
+        @Query("category") category: String,
         @Query("apiKey") apiKey: String
     ): NewsResponse
 }

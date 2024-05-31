@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                 val response = if (query.isEmpty()) {
                     newsApiService.getTopHeadlines("us", category, "cbdae7febc34435da16f12b447c6069d")
                 } else {
-                    newsApiService.searchNews(query, "cbdae7febc34435da16f12b447c6069d")
+                    newsApiService.searchNews(query, "us", category, "cbdae7febc34435da16f12b447c6069d")
                 }
                 if (response.articles.isNotEmpty()) {
                     val newsList = response.articles.filterNot {
