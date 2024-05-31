@@ -1,10 +1,13 @@
 package com.example.androidlab6
 
+import NewsApiService
 import android.os.Bundle
-import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var categorySpinner: Spinner
+    private lateinit var searchEditText: EditText
     private val categories = listOf("general", "business", "entertainment", "health", "science", "sports", "technology")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         categorySpinner = findViewById(R.id.categorySpinner)
+        searchEditText = findViewById(R.id.searchEditText)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         categorySpinner.adapter = adapter
@@ -42,10 +47,20 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
+        searchEditText.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
+                val query = searchEditText.text.toString()
+                fetchNews(categorySpinner.selectedItem.toString(), query)
+                true
+            } else {
+                false
+            }
+        }
+
         fetchNews("general")
     }
 
-    private fun fetchNews(category: String) {
+    private fun fetchNews(category: String, query: String = "") {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://newsapi.org/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -55,25 +70,25 @@ class MainActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.Main).launch {
             try {
-                val response = newsApiService.getTopHeadlines("us", category, "cbdae7febc34435da16f12b447c6069d")
+                val response = if (query.isEmpty()) {
+                    newsApiService.getTopHeadlines("us", category, "cbdae7febc34435da16f12b447c6069d")
+                } else {
+                    newsApiService.searchNews(query, "cbdae7febc34435da16f12b447c6069d")
+                }
                 if (response.articles.isNotEmpty()) {
-                    // Фільтруємо новини, які не мають значення "Removed" в title або description
-                    val newsList = response.articles.filter {
-                        it.title != "[Removed]" && it.description != "[Removed]"
+                    val newsList = response.articles.filterNot {
+                        it.title?.contains("[Removed]") == true || it.description?.contains("[Removed]") == true
                     }
-                    if (newsList.isNotEmpty()) {
-                        newsAdapter = NewsAdapter(this@MainActivity, newsList)
-                        recyclerView.adapter = newsAdapter
-                    } else {
-                        // Обробка випадку, коли всі новини відфільтровані
-                        // Наприклад, можна показати повідомлення про відсутність новин
-                    }
+                    newsAdapter = NewsAdapter(this@MainActivity, newsList)
+                    recyclerView.adapter = newsAdapter
+                } else {
+                    // Handle the case when no articles match the search query
+                    newsAdapter = NewsAdapter(this@MainActivity, emptyList())
+                    recyclerView.adapter = newsAdapter
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
-
-
 }
