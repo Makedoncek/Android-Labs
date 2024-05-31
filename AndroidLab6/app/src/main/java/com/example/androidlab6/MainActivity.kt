@@ -1,6 +1,7 @@
 package com.example.androidlab6
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -56,13 +57,23 @@ class MainActivity : AppCompatActivity() {
             try {
                 val response = newsApiService.getTopHeadlines("us", category, "cbdae7febc34435da16f12b447c6069d")
                 if (response.articles.isNotEmpty()) {
-                    val newsList = response.articles
-                    newsAdapter = NewsAdapter(this@MainActivity, newsList)
-                    recyclerView.adapter = newsAdapter
+                    // Фільтруємо новини, які не мають значення "Removed" в title або description
+                    val newsList = response.articles.filter {
+                        it.title != "[Removed]" && it.description != "[Removed]"
+                    }
+                    if (newsList.isNotEmpty()) {
+                        newsAdapter = NewsAdapter(this@MainActivity, newsList)
+                        recyclerView.adapter = newsAdapter
+                    } else {
+                        // Обробка випадку, коли всі новини відфільтровані
+                        // Наприклад, можна показати повідомлення про відсутність новин
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
+
+
 }

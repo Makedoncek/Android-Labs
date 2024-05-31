@@ -20,10 +20,13 @@ class NewsAdapter(private val context: Context, private val newsList: List<NewsA
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val article = newsList[position]
-        holder.newsTitleTextView.text = article.title
-        holder.newsDescriptionTextView.text = article.description
+
+        holder.newsTitleTextView.text = article.title ?: "[No Title]"
+        holder.newsDescriptionTextView.text = article.description ?: "[No Description]"
+
+        val imageUrl = article.urlToImage ?: "https://example.com/placeholder_image.png"
         Glide.with(context)
-            .load(article.urlToImage ?: R.drawable.placeholder_image)
+            .load(imageUrl)
             .into(holder.newsImageView)
 
         holder.itemView.setOnClickListener {
